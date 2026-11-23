@@ -42,13 +42,13 @@ spec:
           startupProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8081
             periodSeconds: 2
             failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8081
             periodSeconds: 5
             failureThreshold: 3
         
@@ -60,19 +60,19 @@ spec:
           startupProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8082
             periodSeconds: 2
             failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8082
             periodSeconds: 5
             failureThreshold: 3
 
           volumeMounts:
             - name: cache-volume
-              mountpath: /cache
+              mountPath: /cache
       volumes:
         - name: cache-volume
           emptyDir: {}
