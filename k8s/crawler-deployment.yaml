@@ -33,12 +33,28 @@ spec:
               port: 8080
             periodSeconds: 5
             failureThreshold: 3
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /cache
         
         - name: synergychat-crawler-2
           image: bootdotdev/synergychat-crawler:latest
-          envFrom:
-            - configMapRef:
-                name: synergychat-crawler-configmap
+          env:
+            - name: CRAWLER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: synergychat-crawler-configmap
+                  key: CRAWLER_PORT_2
+            - name: CRAWLER_KEYWORDS
+              valueFrom:
+                configMapKeyRef:
+                  name: synergychat-crawler-configmap
+                  key: CRAWLER_KEYWORDS
+            - name: CRAWLER_DB_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: synergychat-crawler-configmap
+                  key: CRAWLER_DB_PATH
           startupProbe:
             httpGet:
               path: /healthz
@@ -51,12 +67,28 @@ spec:
               port: 8081
             periodSeconds: 5
             failureThreshold: 3
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /cache
         
         - name: synergychat-crawler-3
           image: bootdotdev/synergychat-crawler:latest
-          envFrom:
-            - configMapRef:
-                name: synergychat-crawler-configmap
+          env:
+            - name: CRAWLER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: synergychat-crawler-configmap
+                  key: CRAWLER_PORT_3
+            - name: CRAWLER_KEYWORDS
+              valueFrom:
+                configMapKeyRef:
+                  name: synergychat-crawler-configmap
+                  key: CRAWLER_KEYWORDS
+            - name: CRAWLER_DB_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: synergychat-crawler-configmap
+                  key: CRAWLER_DB_PATH
           startupProbe:
             httpGet:
               path: /healthz
@@ -69,7 +101,6 @@ spec:
               port: 8082
             periodSeconds: 5
             failureThreshold: 3
-
           volumeMounts:
             - name: cache-volume
               mountPath: /cache
