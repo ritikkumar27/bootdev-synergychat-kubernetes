@@ -16,7 +16,7 @@ spec:
         app: synergychat-crawler
     spec:
       containers:
-        - name: synergychat-crawler
+        - name: synergychat-crawler-1
           image: bootdotdev/synergychat-crawler:latest
           envFrom:
             - configMapRef:
@@ -33,3 +33,46 @@ spec:
               port: 8080
             periodSeconds: 5
             failureThreshold: 3
+        
+        - name: synergychat-crawler-2
+          image: bootdotdev/synergychat-crawler:latest
+          envFrom:
+            - configMapRef:
+                name: synergychat-crawler-configmap
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 2
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 5
+            failureThreshold: 3
+        
+        - name: synergychat-crawler-3
+          image: bootdotdev/synergychat-crawler:latest
+          envFrom:
+            - configMapRef:
+                name: synergychat-crawler-configmap
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 2
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 5
+            failureThreshold: 3
+
+          volumeMounts:
+            - name: cache-volume
+              mountpath: /cache
+      volumes:
+        - name: cache-volume
+          emptyDir: {}
