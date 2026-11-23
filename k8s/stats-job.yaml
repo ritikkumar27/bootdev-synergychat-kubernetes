@@ -1,15 +1,18 @@
 apiVersion: batch/v1
-kind: Job
+kind: CronJob
 metadata:
-  name: synergychat-stats
+  name: synergychat-stats-report
 spec:
-  backoffLimit: 4
-  template:
+  schedule: "* * * * *"
+  jobTemplate:
     spec:
-      restartPolicy: Never
-      containers:
-        - name: synergychat-stats
-          image: curlimages/curl:latest
-          args:
-            - -sf
-            - http://crawler-service.crawler.svc.cluster.local/stats
+      backoffLimit: 4
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: synergychat-stats
+              image: curlimages/curl:latest
+              args:
+                - -sf
+                - http://crawler-service.crawler.svc.cluster.local/stats
