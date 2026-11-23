@@ -4,6 +4,7 @@ metadata:
   name: synergychat-stats-report
 spec:
   schedule: "* * * * *"
+  suspend: true
   jobTemplate:
     spec:
       backoffLimit: 4
